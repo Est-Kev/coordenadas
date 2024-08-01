@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Convertidor de Coordenadas</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #121212;
+            color: #e0e0e0;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .container {
+            background: #1e1e1e;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+            width: 90%;
+            max-width: 600px;
+        }
+
+        h1 {
+            text-align: center;
+            color: #ffffff;
+            margin-bottom: 20px;
+        }
+
+        .converter {
+            margin-bottom: 20px;
+            padding: 15px;
+            border: 1px solid #333;
+            border-radius: 8px;
+            background: #252525;
+        }
+
+        .converter h2 {
+            color: #ffffff;
+            margin: 0 0 10px;
+        }
+
+        label {
+            display: block;
+            margin: 8px 0 4px;
+            font-weight: bold;
+            color: #e0e0e0;
+        }
+
+        input {
+            width: calc(100% - 22px);
+            padding: 10px;
+            border-radius: 8px;
+            border: 1px solid #444;
+            background: #333;
+            color: #e0e0e0;
+            font-size: 16px;
+        }
+
+        button {
+            padding: 10px 15px;
+            border: none;
+            border-radius: 8px;
+            background-color: #007bff;
+            color: #ffffff;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            margin-top: 10px;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        p {
+            font-size: 16px;
+            color: #e0e0e0;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Convertidor de Coordenadas</h1>
+        <div class="converter">
+            <h2>Polares a Rectangulares</h2>
+            <label for="r">Radio (r):</label>
+            <input type="number" id="r" placeholder="Radio" step="any">
+            <label for="theta">Ángulo (θ) en grados:</label>
+            <input type="number" id="theta" placeholder="Ángulo" step="any">
+            <button onclick="convertPolarToRectangular()">Convertir</button>
+            <p id="polar-result"></p>
+        </div>
+        <div class="converter">
+            <h2>Rectangulares a Polares</h2>
+            <label for="x">X:</label>
+            <input type="number" id="x" placeholder="X" step="any">
+            <label for="y">Y:</label>
+            <input type="number" id="y" placeholder="Y" step="any">
+            <button onclick="convertRectangularToPolar()">Convertir</button>
+            <p id="rectangular-result"></p>
+        </div>
+    </div>
+    <script>
+        function convertPolarToRectangular() {
+            const r = parseFloat(document.getElementById('r').value);
+            const theta = parseFloat(document.getElementById('theta').value);
+
+            if (isNaN(r) || isNaN(theta)) {
+                alert('Introduce valores válidos.');
+                return;
+            }
+
+            const thetaRad = theta * (Math.PI / 180);
+            const x = r * Math.cos(thetaRad);
+            const y = r * Math.sin(thetaRad);
+
+            document.getElementById('polar-result').textContent = `X = ${x.toFixed(2)}, Y = ${y.toFixed(2)}`;
+        }
+
+        function convertRectangularToPolar() {
+            const x = parseFloat(document.getElementById('x').value);
+            const y = parseFloat(document.getElementById('y').value);
+
+            if (isNaN(x) || isNaN(y)) {
+                alert('Introduce valores válidos.');
+                return;
+            }
+
+            const r = Math.sqrt(x * x + y * y);
+            const thetaRad = Math.atan2(y, x);
+            const theta = thetaRad * (180 / Math.PI);
+
+            document.getElementById('rectangular-result').textContent = `Radio = ${r.toFixed(2)}, Ángulo = ${theta.toFixed(2)} grados`;
+        }
+    </script>
+</body>
+</html>
